@@ -94,6 +94,7 @@ function selectAnswer(e){
 
     if (isCorrect) {
         SelectedBtn.classList.add('correct')
+        score ++
     }else{
         SelectedBtn.classList.add('incorrect')
     }
@@ -104,5 +105,30 @@ function selectAnswer(e){
         button.disabled = true
     })
     nextbtn.style.display = 'block'
-}
+    }
+    function showScore(){
+        resetState()
+        questionElement.innerHTML = `You Scored ${score} out of ${questions.length}`
+        nextbtn.innerHTML = 'Play Again'
+        nextbtn.style.display = 'block'
+    }
+
+    function handleNextBtn(){
+        currentQuestion++
+        if (currentQuestion < questions.length) {
+            showQuestion()
+        }else{
+            showScore()
+        }
+    }
+
+
+nextbtn.addEventListener('click', ()=>{
+    if (currentQuestion < questions.length) {
+        handleNextBtn()
+    }else{
+        startQuiz()
+    }
+})
 startQuiz()
+
