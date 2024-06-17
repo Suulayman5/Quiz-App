@@ -78,7 +78,7 @@ function showQuestion(){
         if(answer.correct){
             button.dataset.correct = answer.correct
         }
-        button.addEventListener('click', SelectAnswer)
+        button.addEventListener('click', selectAnswer)
     });
 }
 
