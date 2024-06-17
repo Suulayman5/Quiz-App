@@ -12,7 +12,7 @@ const questions = [
         answers:[
             {text: 'Asia', correct: false},
             {text: 'Australia', correct: true},
-            {text: 'Africa', correct: true},
+            {text: 'Africa', correct: false},
             {text: 'Arctic', correct: false},
         ]
     },{
@@ -49,3 +49,60 @@ const questions = [
         ]
     }
 ]
+
+const questionElement = document.getElementById('question')
+const answerbtn = document.getElementById('answer-button')
+const nextbtn = document.getElementById('next-btn')
+
+let currentQuestion = 0
+let score = 0
+
+function startQuiz (){
+    currentQuestion =0
+    score = 0
+    nextbtn.innerHTML ='Next'
+    showQuestion()
+}
+         
+function showQuestion(){
+    resetState()
+    let currentQuestions = questions[currentQuestion]
+    let questionNo = currentQuestion + 1
+    questionElement.innerHTML = questionNo + '. ' + currentQuestions.question
+
+    currentQuestions.answers.forEach(answer => {
+        const button = document.createElement('button')
+        button.innerHTML = answer.text
+        button.classList.add('btn')
+        answerbtn.appendChild(button)
+        if(answer.correct){
+            button.dataset.correct = answer.correct
+        }
+        button.addEventListener('click', SelectAnswer)
+    });
+}
+
+function resetState(){
+    nextbtn.style.display = 'none'
+    while(answerbtn.firstChild){
+        answerbtn.removeChild(answerbtn.firstChild)
+    }
+}
+function selectAnswer(e){
+    const SelectedBtn = e.target
+    const isCorrect = SelectedBtn.dataset.correct === 'true'
+
+    if (isCorrect) {
+        SelectedBtn.classList.add('correct')
+    }else{
+        SelectedBtn.classList.add('incorrect')
+    }
+    Array.from(answerbtn.children).forEach(button =>{
+        if (button.dataset.correct === 'true') {
+            button.classList.add('correct')
+        }
+        button.disabled = true
+    })
+    nextbtn.style.display = 'block'
+}
+startQuiz()
